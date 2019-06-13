@@ -52,7 +52,10 @@ class DbAccess:
             if row[0] == b'':
                 continue
             # Get the domain - part before the first '/'
-            domain = row[0].split('/')[0]
+            # Split based on character I am never going to use - to get full URL in database.
+            domain = row[0].split('£')[0]
+
+            #domain = domain
             # Check if domain is on the ignore list
             on_ignore = False
             for regex in config.TOP_SITES_IGNORE_DOMAIN_RE_MATCH:
