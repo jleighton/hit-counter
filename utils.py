@@ -13,6 +13,9 @@ def getSVG(count, width, recWidth, textX, url):
 def getURL(request):
     """ Get the url out of a request either passed as a query parameter or taken from the referrer. Remove any query """
     url = request.args.get('url', request.referrer)
+    #URL must contain my blog domain, otherwise we stop here.
+    if not "www.jamesleighton.com" in url:
+        return config.CANNOT_FIND_URL_MESSAGE, 404
     if url is None:
         return None
     parts = urlparse(url)
