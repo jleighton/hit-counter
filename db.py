@@ -39,7 +39,7 @@ class DbAccess:
         cursor.execute('UPDATE url SET count = count + 1 WHERE url=?', (url, ))
         connection.commit()
 
-    def getTopSites(self, connection, amount=10):
+    def getTopSites(self, connection, amount=100):
         #amount = 100 to show top 100 URLs on the home page
         """ Get the top domains using this tool by hits. Ignore specified domains """
         # Select all urls and counts
