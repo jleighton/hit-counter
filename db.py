@@ -40,6 +40,7 @@ class DbAccess:
         connection.commit()
 
     def getTopSites(self, connection, amount=10):
+        #amount = 100 to show top 100 URLs on the home page
         """ Get the top domains using this tool by hits. Ignore specified domains """
         # Select all urls and counts
         cursor = connection.cursor()
