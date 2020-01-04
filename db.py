@@ -39,8 +39,7 @@ class DbAccess:
         cursor.execute('UPDATE url SET count = count + 1 WHERE url=?', (url, ))
         connection.commit()
 
-    def getTopSites(self, connection, amount=100):
-        #amount = 100 to show top 100 URLs on the home page
+    def getTopSites(self, connection, amount=10):
         """ Get the top domains using this tool by hits. Ignore specified domains """
         # Select all urls and counts
         cursor = connection.cursor()
@@ -53,7 +52,6 @@ class DbAccess:
             if row[0] == b'':
                 continue
             # Get the domain - part before the first '/'
-            # Split based on character I am never going to use - to get full URL in database.
             domain = row[0].split('£')[0]
 
             #domain = domain
@@ -75,4 +73,22 @@ class DbAccess:
         return {
             'domains': sorted_sites[:amount],
             'values': {site: site_counts[site] for site in site_counts}
+        }
+
+    def getTotalHits(self, connection):
+        #Method to show total hits in the database
+
+        # Select all urls and counts and sum count
+        cursor = connection.cursor()
+        cursor.execute('SELECT sum(count) AS "total_count" FROM url')
+        urls_and_counts = cursor.fetchall()
+
+
+
+
+
+
+        # Return sorted domains and their values, this allows for lower Python version support
+        return {
+            urls_and_counts
         }

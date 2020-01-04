@@ -32,15 +32,33 @@ def makeSVGRequest(count, url, cookie_required):
 def homeRoute():
     """ Home + tool to create (nocount/count + url in url) """
     connection = db_connection.get_connection()
-    return render_template('index.html', top_sites=db_connection.getTopSites(connection, 10))
+    #change top sites to top 100
+    return render_template('index.html', top_sites=db_connection.getTopSites(connection, 100))
+
+
+
 
 @app.route("/count")
 def countRoute():
+
     """ Return the count for a url and add 1 to it """
     # Attempt to find any sign of a url, return 404 if we can't find anything
     url = utils.getURL(request)
+
+    if not url.startswith("www.jamesleighton.com"):
+        return config.CANNOT_FIND_URL_MESSAGE, 404
+
+
     if url is None:
         return config.CANNOT_FIND_URL_MESSAGE, 404
+
+
+
+    """ Return the count for a url and add 1 to it """
+    # Attempt to find any sign of a url, return 404 if we can't find anything
+    #url = utils.getURL(request)
+    #if url is None:
+    #    return config.CANNOT_FIND_URL_MESSAGE, 404
 
     # Get/generate cookie, cleanup views, add a view, get the count and commit changes
     valid_cookie = utils.checkValidCookie(request, url)
@@ -53,10 +71,18 @@ def countRoute():
 
 @app.route("/count/tag.svg")
 def countTagRoute():
-    """ Return svg of count and add 1 to url """
+
+
+    """ Return the count for a url and add 1 to it """
+    # Attempt to find any sign of a url, return 404 if we can't find anything
     url = utils.getURL(request)
+
+    if not url.startswith("www.jamesleighton.com"):
+        return config.CANNOT_FIND_URL_MESSAGE, 404
+
     if url is None:
         return config.CANNOT_FIND_URL_MESSAGE, 404
+
 
     valid_cookie = utils.checkValidCookie(request, url)
     connection = db_connection.get_connection()
@@ -68,8 +94,13 @@ def countTagRoute():
 
 @app.route("/nocount")
 def nocountRoute():
-    """ Return the count for a url """
+    """ Return the count for a url and add 1 to it """
+    # Attempt to find any sign of a url, return 404 if we can't find anything
     url = utils.getURL(request)
+
+    if not url.startswith("www.jamesleighton.com"):
+        return config.CANNOT_FIND_URL_MESSAGE, 404
+
     if url is None:
         return config.CANNOT_FIND_URL_MESSAGE, 404
 
@@ -81,7 +112,13 @@ def nocountRoute():
 @app.route("/nocount/tag.svg")
 def nocountTagRoute():
     """ Return svg of count """
+    """ Return the count for a url and add 1 to it """
+    # Attempt to find any sign of a url, return 404 if we can't find anything
     url = utils.getURL(request)
+
+    if not url.startswith("www.jamesleighton.com"):
+        return config.CANNOT_FIND_URL_MESSAGE, 404
+
     if url is None:
         return config.CANNOT_FIND_URL_MESSAGE, 404
 
